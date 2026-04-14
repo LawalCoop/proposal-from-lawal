@@ -25,6 +25,8 @@ export default {
       animation: {
         'glow': 'glow 10s ease-in-out infinite',
         'scroll-dot': 'scroll-dot 2s ease-in-out infinite',
+        'twinkle': 'twinkle 1.8s ease-in-out infinite',
+        'halo-pulse': 'halo-pulse 2.5s ease-in-out infinite',
       },
       keyframes: {
         glow: {
@@ -34,6 +36,14 @@ export default {
         'scroll-dot': {
           '0%, 100%': { transform: 'translateY(0)', opacity: '1' },
           '50%': { transform: 'translateY(10px)', opacity: '0.3' },
+        },
+        twinkle: {
+          '0%, 100%': { opacity: '0', transform: 'scale(0.4) rotate(0deg)' },
+          '50%': { opacity: '1', transform: 'scale(1) rotate(45deg)' },
+        },
+        'halo-pulse': {
+          '0%, 100%': { opacity: '0.6', transform: 'scale(1)' },
+          '50%': { opacity: '1', transform: 'scale(1.12)' },
         },
       },
       fontFamily: {

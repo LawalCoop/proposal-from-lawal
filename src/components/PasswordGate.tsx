@@ -6,24 +6,40 @@ type Props = {
   onUnlock: (content: Content) => void
 }
 
+function getSlug(): string | null {
+  const params = new URLSearchParams(window.location.search)
+  const slug = params.get('for')
+  if (!slug) return null
+  // Allow only safe slug characters
+  if (!/^[a-z0-9-]+$/.test(slug)) return null
+  return slug
+}
+
 export default function PasswordGate({ onUnlock }: Props) {
   const [password, setPassword] = useState('')
   const [error, setError] = useState<string | null>(null)
   const [loading, setLoading] = useState(false)
+  const slug = getSlug()
 
   async function handleSubmit(e: FormEvent) {
     e.preventDefault()
     setError(null)
     setLoading(true)
     try {
-      const res = await fetch(`${import.meta.env.BASE_URL}content.enc.json`)
+      if (!slug) throw new Error('Missing ?for= parameter')
+      const res = await fetch(`${import.meta.env.BASE_URL}content.${slug}.enc.json`)
       if (!res.ok) throw new Error('Content not found')
       const payload = (await res.json()) as EncryptedPayload
       const content = (await decryptContent(payload, password)) as Content
       document.title = content.meta.title
       onUnlock(content)
-    } catch {
-      setError('Wrong password')
+    } catch (e) {
+      const msg = e instanceof Error && e.message === 'Missing ?for= parameter'
+        ? 'No proposal specified. Append ?for=<slug> to the URL.'
+        : e instanceof Error && e.message === 'Content not found'
+        ? 'Proposal not found for this URL.'
+        : 'Wrong password'
+      setError(msg)
       setLoading(false)
     }
   }

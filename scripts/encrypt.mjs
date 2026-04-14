@@ -1,6 +1,7 @@
 #!/usr/bin/env node
-// Encrypt content.json -> public/content.enc.json
-// Usage: PASSWORD="your-passphrase" npm run encrypt
+// Encrypt content.<slug>.json -> public/content.<slug>.enc.json
+// Usage: PASSWORD="passphrase" npm run encrypt -- <slug>
+//   e.g. PASSWORD="..." npm run encrypt -- gls
 import { readFileSync, writeFileSync, mkdirSync, existsSync } from 'node:fs'
 import { webcrypto as crypto } from 'node:crypto'
 import { dirname, resolve } from 'node:path'
@@ -9,11 +10,20 @@ import { createInterface } from 'node:readline/promises'
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
 const ROOT = resolve(__dirname, '..')
-const SRC = resolve(ROOT, 'content.json')
-const OUT_DIR = resolve(ROOT, 'public')
-const OUT = resolve(OUT_DIR, 'content.enc.json')
-
 const ITERATIONS = 600_000
+
+function getSlug() {
+  const slug = process.argv[2]
+  if (!slug) {
+    console.error('Usage: npm run encrypt -- <slug>   (e.g. gls)')
+    process.exit(1)
+  }
+  if (!/^[a-z0-9-]+$/.test(slug)) {
+    console.error('Slug must match /^[a-z0-9-]+$/ (lowercase letters, digits, dashes)')
+    process.exit(1)
+  }
+  return slug
+}
 
 async function getPassword() {
   if (process.env.PASSWORD) return process.env.PASSWORD
@@ -24,10 +34,9 @@ async function getPassword() {
 }
 
 async function deriveKey(password, salt) {
-  const enc = new TextEncoder()
   const baseKey = await crypto.subtle.importKey(
     'raw',
-    enc.encode(password),
+    new TextEncoder().encode(password),
     'PBKDF2',
     false,
     ['deriveKey'],
@@ -41,13 +50,16 @@ async function deriveKey(password, salt) {
   )
 }
 
-function toB64(bytes) {
-  return Buffer.from(bytes).toString('base64')
-}
+const toB64 = (bytes) => Buffer.from(bytes).toString('base64')
 
 async function main() {
-  if (!existsSync(SRC)) {
-    console.error(`Missing ${SRC}. Create content.json first.`)
+  const slug = getSlug()
+  const src = resolve(ROOT, `content.${slug}.json`)
+  const outDir = resolve(ROOT, 'public')
+  const out = resolve(outDir, `content.${slug}.enc.json`)
+
+  if (!existsSync(src)) {
+    console.error(`Missing ${src}. Create it first (plaintext JSON, gitignored).`)
     process.exit(1)
   }
   const password = await getPassword()
@@ -55,7 +67,7 @@ async function main() {
     console.error('Password must be at least 8 chars.')
     process.exit(1)
   }
-  const plaintext = readFileSync(SRC, 'utf8')
+  const plaintext = readFileSync(src, 'utf8')
   const salt = crypto.getRandomValues(new Uint8Array(16))
   const iv = crypto.getRandomValues(new Uint8Array(12))
   const key = await deriveKey(password, salt)
@@ -70,9 +82,9 @@ async function main() {
     iv: toB64(iv),
     ct: toB64(ct),
   }
-  if (!existsSync(OUT_DIR)) mkdirSync(OUT_DIR, { recursive: true })
-  writeFileSync(OUT, JSON.stringify(payload))
-  console.log(`Encrypted ${plaintext.length} bytes → ${OUT}`)
+  if (!existsSync(outDir)) mkdirSync(outDir, { recursive: true })
+  writeFileSync(out, JSON.stringify(payload))
+  console.log(`Encrypted ${plaintext.length} bytes → ${out}`)
 }
 
 main().catch((e) => {

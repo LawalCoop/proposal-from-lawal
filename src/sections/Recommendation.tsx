@@ -10,12 +10,24 @@ export default function Recommendation({ c }: { c: Content['recommendation'] }) 
     if (window.matchMedia('(hover: hover)').matches) return
     const el = bRef.current
     if (!el) return
+    let timer: number | undefined
     const obs = new IntersectionObserver(
-      ([entry]) => setBActive(entry.isIntersecting && entry.intersectionRatio > 0.4),
+      ([entry]) => {
+        const visible = entry.isIntersecting && entry.intersectionRatio > 0.4
+        if (visible) {
+          timer = window.setTimeout(() => setBActive(true), 3000)
+        } else {
+          if (timer) window.clearTimeout(timer)
+          setBActive(false)
+        }
+      },
       { threshold: 0.4 },
     )
     obs.observe(el)
-    return () => obs.disconnect()
+    return () => {
+      if (timer) window.clearTimeout(timer)
+      obs.disconnect()
+    }
   }, [])
   return (
     <section id="recommendation" className="px-6 md:px-8 py-20 md:py-32 max-w-7xl mx-auto">

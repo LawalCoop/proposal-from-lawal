@@ -1,0 +1,16 @@
+node_modules
+dist
+.DS_Store
+.claude
+*.tsbuildinfo
+*.local
+.env
+.env.*
+
+# Plaintext content — NEVER commit
+content.json
+src/content.plain.json
+
+# Recovery reference (local only)
+.recover-reference
+gls.tar.gz

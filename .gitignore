@@ -7,8 +7,8 @@ dist
 .env
 .env.*
 
-# Plaintext content per client — NEVER commit
-content.*.json
+# Plaintext content per client — NEVER commit (only at repo root)
+/content.*.json
 
 # Recovery reference (local only)
 .recover-reference

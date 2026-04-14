@@ -14,7 +14,7 @@ export default function Cover({ c }: { c: Content['cover'] }) {
         </span>
       </div>
 
-      <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold text-text-primary leading-[1.05] max-w-5xl">
+      <h1 className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-bold text-text-primary leading-[1.05] max-w-5xl">
         Rewrite Proposal<br />
         for <span className="text-accent">{c.brand}</span>
       </h1>

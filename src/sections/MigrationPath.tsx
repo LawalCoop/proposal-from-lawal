@@ -9,11 +9,11 @@ export default function MigrationPath({ c }: { c: Content['migrationPath'] }) {
           <span className="w-2 h-2 rounded-full bg-accent" />
           <span className="font-mono text-xs font-medium tracking-widest text-text-secondary">{c.badge}</span>
         </div>
-        <h2 className="mt-8 text-4xl md:text-5xl font-bold text-text-primary">{c.title}</h2>
-        <p className="mt-6 text-lg text-text-secondary max-w-3xl mx-auto leading-relaxed">{c.subtitle}</p>
+        <h2 className="mt-8 text-2xl md:text-5xl font-bold text-text-primary">{c.title}</h2>
+        <p className="mt-6 text-base md:text-lg text-text-secondary max-w-3xl mx-auto leading-relaxed">{c.subtitle}</p>
       </div>
 
-      <div className="mt-16 grid md:grid-cols-2 gap-6 relative">
+      <div className="mt-14 md:mt-16 grid grid-cols-1 md:grid-cols-2 gap-6 relative">
         <StackCol label={c.currentStack.label} items={c.currentStack.items} accent={false} />
         <StackCol label={c.proposedStack.label} items={c.proposedStack.items} accent={true} />
         <div className="hidden md:flex absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-14 h-14 rounded-full bg-surface-elevated border border-border items-center justify-center z-10">
@@ -21,7 +21,7 @@ export default function MigrationPath({ c }: { c: Content['migrationPath'] }) {
         </div>
       </div>
 
-      <div className="mt-16 grid md:grid-cols-3 gap-5">
+      <div className="mt-14 md:mt-16 grid grid-cols-1 md:grid-cols-3 gap-5">
         {c.insights.map((ins, i) => (
           <div key={i} className="p-6 rounded-xl bg-surface border border-border">
             <div className="inline-block px-2.5 py-1 rounded bg-accent-glow">

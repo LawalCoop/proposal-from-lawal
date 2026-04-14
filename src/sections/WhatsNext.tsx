@@ -16,7 +16,7 @@ export default function WhatsNext({
         <span className="w-2 h-2 rounded-full bg-accent" />
         <span className="font-mono text-xs font-medium tracking-widest text-text-secondary">{c.badge}</span>
       </div>
-      <h2 className="mt-8 text-4xl md:text-5xl font-bold text-text-primary">{c.title}</h2>
+      <h2 className="mt-8 text-3xl md:text-5xl font-bold text-text-primary">{c.title}</h2>
       <p className="mt-6 text-lg text-text-secondary leading-relaxed">{c.body}</p>
       <p className="web-only mt-4 text-xs text-text-muted max-w-md mx-auto">
         The PDF reflects the team configuration you've selected above.

@@ -8,7 +8,7 @@ export default function Recommendation({ c }: { c: Content['recommendation'] }) 
         <span className="w-2 h-2 rounded-full bg-accent" />
         <span className="font-mono text-xs font-medium tracking-widest text-text-secondary">{c.badge}</span>
       </div>
-      <h2 className="mt-8 text-4xl md:text-5xl font-bold text-text-primary">{c.title}</h2>
+      <h2 className="mt-8 text-3xl md:text-5xl font-bold text-text-primary">{c.title}</h2>
       <p className="mt-6 text-lg md:text-xl text-text-secondary leading-relaxed">{c.subtitle}</p>
 
       {/* Honesty disclaimer — framed, before the plans */}
@@ -20,7 +20,7 @@ export default function Recommendation({ c }: { c: Content['recommendation'] }) 
       </div>
 
       {/* The three plans */}
-      <div className="mt-10 grid md:grid-cols-3 gap-5">
+      <div className="mt-10 grid grid-cols-1 md:grid-cols-3 gap-5">
         {c.plans.map((p) => (
           <div
             key={p.id}
@@ -46,7 +46,7 @@ export default function Recommendation({ c }: { c: Content['recommendation'] }) 
       </p>
 
       {/* The two options */}
-      <div className="mt-8 grid md:grid-cols-2 gap-6">
+      <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-6">
         {c.options.map((o) => (
           <div
             key={o.id}
@@ -80,7 +80,7 @@ export default function Recommendation({ c }: { c: Content['recommendation'] }) 
       </div>
 
       {/* Footer notes — PM + commitment, clearly marked */}
-      <div className="mt-12 grid md:grid-cols-2 gap-6">
+      <div className="mt-12 grid grid-cols-1 md:grid-cols-2 gap-6">
         <NoteCard icon="handshake" title={c.pmNote.title} desc={c.pmNote.desc} />
         <NoteCard icon="calendar" title={c.commitmentNote.title} desc={c.commitmentNote.desc} />
       </div>

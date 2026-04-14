@@ -9,7 +9,7 @@ type Props = {
 
 function CardGrid({ cards, accentBorder }: { cards: Card[]; accentBorder?: boolean }) {
   return (
-    <div className="grid md:grid-cols-3 gap-6">
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
       {cards.map((card, i) => (
         <div
           key={i}
@@ -50,14 +50,14 @@ export default function WhyAsh({ c, elixir, phoenix }: Props) {
         </div>
         <div className="flex-1 h-px bg-border" />
       </div>
-      <h2 className="text-4xl md:text-5xl font-bold text-text-primary text-center">
+      <h2 className="text-3xl md:text-5xl font-bold text-text-primary text-center">
         Why Elixir + Phoenix + Ash
       </h2>
 
       {/* Elixir */}
       <div className="mt-20">
         <Divider label="ELIXIR · THE RUNTIME" />
-        <h3 className="text-2xl md:text-3xl font-bold text-text-primary">{elixir.title}</h3>
+        <h3 className="text-xl md:text-3xl font-bold text-text-primary">{elixir.title}</h3>
         <p className="mt-4 text-lg md:text-xl text-text-secondary leading-relaxed">{elixir.subtitle}</p>
         <div className="mt-10">
           <CardGrid cards={elixir.cards} />
@@ -67,7 +67,7 @@ export default function WhyAsh({ c, elixir, phoenix }: Props) {
       {/* Phoenix */}
       <div className="mt-20">
         <Divider label="PHOENIX · THE WEB LAYER" />
-        <h3 className="text-2xl md:text-3xl font-bold text-text-primary">{phoenix.title}</h3>
+        <h3 className="text-xl md:text-3xl font-bold text-text-primary">{phoenix.title}</h3>
         <p className="mt-4 text-lg md:text-xl text-text-secondary leading-relaxed">{phoenix.subtitle}</p>
         <div className="mt-10">
           <CardGrid cards={phoenix.cards} />
@@ -77,13 +77,13 @@ export default function WhyAsh({ c, elixir, phoenix }: Props) {
       {/* Ash */}
       <div className="mt-20">
         <Divider label="ASH · THE DOMAIN LAYER" />
-        <h3 className="text-2xl md:text-3xl font-bold text-text-primary">{c.title}</h3>
+        <h3 className="text-xl md:text-3xl font-bold text-text-primary">{c.title}</h3>
         <p className="mt-4 text-lg md:text-xl text-text-secondary leading-relaxed">{c.subtitle}</p>
         <div className="mt-10">
           <CardGrid cards={c.cards} accentBorder />
         </div>
 
-        <div className="mt-10 rounded-2xl bg-surface-elevated border border-border overflow-hidden">
+        <div className="hidden md:block mt-10 rounded-2xl bg-surface-elevated border border-border overflow-hidden">
           <div className="px-5 py-3 border-b border-border flex items-center gap-2">
             <span className="w-3 h-3 rounded-full bg-red-500/60" />
             <span className="w-3 h-3 rounded-full bg-yellow-500/60" />

@@ -29,10 +29,10 @@ export default function Pricing({ c, onConfigChange }: Props) {
         <span className="w-2 h-2 rounded-full bg-accent" />
         <span className="font-mono text-xs font-medium tracking-widest text-text-secondary">{c.badge}</span>
       </div>
-      <h2 className="mt-8 text-4xl md:text-5xl font-bold text-text-primary">{c.title}</h2>
+      <h2 className="mt-8 text-3xl md:text-5xl font-bold text-text-primary">{c.title}</h2>
       <p className="mt-6 text-lg md:text-xl text-text-secondary leading-relaxed">{c.subtitle}</p>
 
-      <div className="mt-16 grid lg:grid-cols-[1fr_400px] gap-8">
+      <div className="mt-14 md:mt-16 grid grid-cols-1 lg:grid-cols-[1fr_400px] gap-6 lg:gap-8">
         <div className="space-y-5">
           {/* Devs stepper */}
           <div className="p-7 rounded-2xl bg-surface border border-border">
@@ -44,7 +44,7 @@ export default function Pricing({ c, onConfigChange }: Props) {
               <div className="flex items-center gap-3">
                 <button
                   onClick={() => setDevs((d) => Math.max(1, d - 1))}
-                  className="w-9 h-9 rounded-lg bg-surface-elevated border border-border text-text-primary hover:border-accent transition"
+                  className="w-11 h-11 rounded-lg bg-surface-elevated border border-border text-text-primary hover:border-accent transition text-xl"
                   aria-label="Decrease"
                 >
                   −
@@ -52,7 +52,7 @@ export default function Pricing({ c, onConfigChange }: Props) {
                 <span className="w-10 text-center text-2xl font-bold text-text-primary tabular-nums">{devs}</span>
                 <button
                   onClick={() => setDevs((d) => Math.min(20, d + 1))}
-                  className="w-9 h-9 rounded-lg bg-surface-elevated border border-border text-text-primary hover:border-accent transition"
+                  className="w-11 h-11 rounded-lg bg-surface-elevated border border-border text-text-primary hover:border-accent transition text-xl"
                   aria-label="Increase"
                 >
                   +
@@ -90,7 +90,7 @@ export default function Pricing({ c, onConfigChange }: Props) {
         <div className="space-y-5">
           <div className="p-8 rounded-2xl bg-accent-glow border border-border-accent">
             <div className="font-mono text-[11px] tracking-widest text-accent">MONTHLY INVESTMENT</div>
-            <div className="mt-4 text-5xl font-bold text-text-primary tabular-nums leading-none">{fmt(total)}</div>
+            <div className="mt-4 text-4xl md:text-5xl font-bold text-text-primary tabular-nums leading-none">{fmt(total)}</div>
             <div className="mt-3 text-xs text-text-secondary">/ month</div>
             <div className="mt-6 pt-6 border-t border-border-accent text-sm text-text-secondary">
               Every 2–3 months: scale up, scale down, or wrap up gracefully.

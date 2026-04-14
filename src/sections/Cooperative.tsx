@@ -7,10 +7,10 @@ export default function Cooperative({ c }: { c: Content['cooperative'] }) {
         <span className="w-2 h-2 rounded-full bg-accent" />
         <span className="font-mono text-xs font-medium tracking-widest text-text-secondary">{c.badge}</span>
       </div>
-      <h2 className="mt-8 text-4xl md:text-5xl font-bold text-text-primary">{c.title}</h2>
-      <p className="mt-6 text-xl md:text-2xl text-text-secondary leading-relaxed">{c.subtitle}</p>
+      <h2 className="mt-8 text-3xl md:text-5xl font-bold text-text-primary">{c.title}</h2>
+      <p className="mt-6 text-lg md:text-2xl text-text-secondary leading-relaxed">{c.subtitle}</p>
 
-      <div className="mt-16 grid md:grid-cols-3 gap-6">
+      <div className="mt-14 md:mt-16 grid grid-cols-1 md:grid-cols-3 gap-6">
         {c.points.map((p, i) => (
           <div key={i}>
             <div className="text-[11px] font-mono text-accent tracking-widest">0{i + 1}</div>

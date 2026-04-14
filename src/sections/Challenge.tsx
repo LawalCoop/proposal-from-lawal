@@ -9,13 +9,13 @@ export default function Challenge({ c }: { c: Content['challenge'] }) {
           <span className="w-2 h-2 rounded-full bg-accent" />
           <span className="font-mono text-xs font-medium tracking-widest text-text-secondary">{c.badge}</span>
         </div>
-        <h2 className="mt-8 text-4xl md:text-6xl font-bold text-text-primary">{c.title}</h2>
-        <p className="mt-6 text-xl md:text-2xl text-text-secondary max-w-4xl mx-auto leading-relaxed">
+        <h2 className="mt-8 text-3xl md:text-6xl font-bold text-text-primary">{c.title}</h2>
+        <p className="mt-6 text-lg md:text-2xl text-text-secondary max-w-4xl mx-auto leading-relaxed">
           {c.subtitle}
         </p>
       </div>
 
-      <div className="mt-20 grid md:grid-cols-2 gap-6 relative">
+      <div className="mt-14 md:mt-20 grid grid-cols-1 md:grid-cols-2 gap-6 relative">
         <StateCard state={c.current} accent={false} />
         <StateCard state={c.target} accent={true} />
         <div className="hidden md:flex absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-14 h-14 rounded-full bg-surface-elevated border border-border-accent items-center justify-center z-10">

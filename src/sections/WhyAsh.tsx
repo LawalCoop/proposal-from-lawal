@@ -39,7 +39,7 @@ function Divider({ label }: { label: string }) {
 
 export default function WhyAsh({ c, elixir, phoenix }: Props) {
   return (
-    <section id="why-ash" className="px-8 py-32 max-w-7xl mx-auto">
+    <section id="why-ash" className="px-6 md:px-8 py-20 md:py-32 max-w-7xl mx-auto">
       <div className="flex items-center gap-4 mb-8">
         <div className="flex-1 h-px bg-border" />
         <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-border-accent">

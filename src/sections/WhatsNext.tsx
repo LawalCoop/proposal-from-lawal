@@ -11,7 +11,7 @@ export default function WhatsNext({
   generating: boolean
 }) {
   return (
-    <section id="whats-next" className="px-8 py-32 max-w-3xl mx-auto text-center">
+    <section id="whats-next" className="px-6 md:px-8 py-20 md:py-32 max-w-3xl mx-auto text-center">
       <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-border bg-surface">
         <span className="w-2 h-2 rounded-full bg-accent" />
         <span className="font-mono text-xs font-medium tracking-widest text-text-secondary">{c.badge}</span>

@@ -3,7 +3,7 @@ import Icon from '../components/Icon'
 
 export default function Recommendation({ c }: { c: Content['recommendation'] }) {
   return (
-    <section id="recommendation" className="px-8 py-32 max-w-7xl mx-auto">
+    <section id="recommendation" className="px-6 md:px-8 py-20 md:py-32 max-w-7xl mx-auto">
       <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-border bg-surface">
         <span className="w-2 h-2 rounded-full bg-accent" />
         <span className="font-mono text-xs font-medium tracking-widest text-text-secondary">{c.badge}</span>

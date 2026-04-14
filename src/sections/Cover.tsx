@@ -5,7 +5,7 @@ export default function Cover({ c }: { c: Content['cover'] }) {
   return (
     <section
       id="cover"
-      className="relative min-h-screen flex flex-col items-center justify-center px-8 py-32 text-center"
+      className="relative min-h-screen flex flex-col items-center justify-center px-6 md:px-8 py-20 md:py-32 text-center"
     >
       <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-border-accent bg-accent-glow mb-10">
         <span className="w-2 h-2 rounded-full bg-accent" />

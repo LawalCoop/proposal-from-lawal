@@ -88,3 +88,84 @@ export type Content = {
     ctas: { icon: IconName; label: string; href: string }[]
   }
 }
+
+export type BrzaContent = {
+  meta: {
+    title: string
+    recipients: string[]
+    template: 'brza'
+  }
+  cover: {
+    eyebrow: string
+    title: string
+    subtitle: string
+    date: string
+    version: string
+    preparedBy: string
+  }
+  greeting: {
+    title: string
+    paragraphs: string[]
+    calloutLabel: string
+    calloutText: string
+  }
+  overview: {
+    badge: string
+    title: string
+    subtitle: string
+    current: {
+      label: string
+      headline: string
+      desc: string
+      stats: { value: string; label: string }[]
+    }
+    target: {
+      label: string
+      headline: string
+      desc: string
+      stats: { value: string; label: string }[]
+    }
+  }
+  scope: {
+    badge: string
+    title: string
+    subtitle: string
+    items: { icon: IconName; title: string; desc: string }[]
+    footer: string
+  }
+  implementation: {
+    badge: string
+    title: string
+    subtitle: string
+    phases: { label: string; title: string; desc: string }[]
+    estimate: {
+      value: string
+      label: string
+      desc: string
+    }
+  }
+  pricing: {
+    badge: string
+    title: string
+    subtitle: string
+    total: string
+    totalLabel: string
+    breakdown: { label: string; value: string; accent?: boolean }[]
+    notes: { icon: IconName; text: string }[]
+  }
+  proposal: {
+    badge: string
+    title: string
+    subtitle: string
+    cards: { title: string; desc: string }[]
+    closing: string
+  }
+  whatsNext: {
+    badge: string
+    title: string
+    body: string
+    ctas: { icon: IconName; label: string; href: string }[]
+  }
+}
+
+export type ProposalContent = Content | BrzaContent

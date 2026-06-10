@@ -1,5 +1,5 @@
-import { useState, useRef } from 'react'
-import type { Content } from './types'
+import { useRef, useState } from 'react'
+import type { BrzaContent, Content, ProposalContent } from './types'
 import PasswordGate from './components/PasswordGate'
 import Background from './components/Background'
 import SectionNav from './components/SectionNav'
@@ -14,8 +14,15 @@ import Recommendation from './sections/Recommendation'
 import Pricing from './sections/Pricing'
 import WhatsNext from './sections/WhatsNext'
 import Footer from './components/Footer'
+import BrzaCover from './sections/brza/BrzaCover'
+import BrzaGreeting from './sections/brza/BrzaGreeting'
+import BrzaOverview from './sections/brza/BrzaOverview'
+import BrzaScope from './sections/brza/BrzaScope'
+import BrzaImplementation from './sections/brza/BrzaImplementation'
+import BrzaPricing from './sections/brza/BrzaPricing'
+import BrzaProposal from './sections/brza/BrzaProposal'
 
-const SECTIONS = [
+const LEGACY_SECTIONS = [
   { id: 'cover', label: 'Cover' },
   { id: 'greeting', label: 'Introduction' },
   { id: 'challenge', label: 'The Challenge' },
@@ -28,18 +35,36 @@ const SECTIONS = [
   { id: 'whats-next', label: "What's Next" },
 ]
 
+const BRZA_SECTIONS = [
+  { id: 'cover', label: 'Portada' },
+  { id: 'greeting', label: 'Contexto' },
+  { id: 'overview', label: 'Objetivo' },
+  { id: 'scope', label: 'Alcance' },
+  { id: 'implementation', label: 'Implementación' },
+  { id: 'pricing', label: 'Costo' },
+  { id: 'proposal', label: 'Propuesta' },
+]
+
+function isBrzaContent(content: ProposalContent): content is BrzaContent {
+  return (content as BrzaContent).meta.template === 'brza'
+}
+
+function getPdfFilename(content: ProposalContent) {
+  if (isBrzaContent(content)) return 'propuesta-brza.pdf'
+  return 'lawal-gls-proposal.pdf'
+}
+
 export default function App() {
-  const [content, setContent] = useState<Content | null>(null)
-  const [, setConfig] = useState({ devs: 4, ux: true, pm: false, total: 34500 })
+  const [content, setContent] = useState<ProposalContent | null>(null)
   const [generating, setGenerating] = useState(false)
   const proposalRef = useRef<HTMLDivElement>(null)
 
-  function handleUnlock(c: Content) {
-    setContent(c)
+  function handleUnlock(nextContent: ProposalContent) {
+    setContent(nextContent)
   }
 
   async function handleDownloadPdf() {
-    if (!proposalRef.current || generating) return
+    if (!proposalRef.current || generating || !content) return
     setGenerating(true)
     try {
       const [{ default: html2canvas }, { default: jsPDF }] = await Promise.all([
@@ -47,9 +72,10 @@ export default function App() {
         import('jspdf'),
       ])
 
-      const sectionEls = SECTIONS.map((s) => document.getElementById(s.id)).filter(
-        (el): el is HTMLElement => el !== null,
-      )
+      const sections = isBrzaContent(content) ? BRZA_SECTIONS : LEGACY_SECTIONS
+      const sectionEls = sections
+        .map((section) => document.getElementById(section.id))
+        .filter((el): el is HTMLElement => el !== null)
 
       const SCALE = 1.5
       const A4_W = 595.28
@@ -82,19 +108,17 @@ export default function App() {
           useCORS: true,
           logging: false,
           windowWidth: el.scrollWidth,
-          ignoreElements: (n) =>
-            n.classList.contains('pdf-ignore') || n.tagName === 'NAV',
+          ignoreElements: (n) => n.classList.contains('pdf-ignore') || n.tagName === 'NAV',
           onclone: (clonedDoc) => {
             clonedDoc.body.classList.add('pdf-exporting')
-            // Flatten pill badges to plain highlighted text for PDF
             const badges = clonedDoc.querySelectorAll<HTMLElement>('.inline-flex.rounded-full')
-            badges.forEach((el) => {
-              el.style.display = 'inline-block'
-              el.style.padding = '0'
-              el.style.border = 'none'
-              el.style.background = 'transparent'
-              el.style.marginBottom = '8px'
-              const spans = el.querySelectorAll<HTMLElement>('span')
+            badges.forEach((badge) => {
+              badge.style.display = 'inline-block'
+              badge.style.padding = '0'
+              badge.style.border = 'none'
+              badge.style.background = 'transparent'
+              badge.style.marginBottom = '8px'
+              const spans = badge.querySelectorAll<HTMLElement>('span')
               if (spans.length >= 2) {
                 spans[0].style.display = 'none'
                 const text = spans[1]
@@ -171,7 +195,7 @@ export default function App() {
         }
       }
 
-      pdf.save('lawal-gls-proposal.pdf')
+      pdf.save(getPdfFilename(content))
     } catch (err) {
       console.error('PDF generation failed', err)
       alert('PDF generation failed. Check the console for details.')
@@ -180,30 +204,52 @@ export default function App() {
     }
   }
 
-  if (!content)
+  if (!content) {
     return (
       <>
         <Background />
         <PasswordGate onUnlock={handleUnlock} />
       </>
     )
+  }
+
+  if (isBrzaContent(content)) {
+    return (
+      <div ref={proposalRef} className="relative">
+        <div className="pdf-ignore">
+          <Background />
+        </div>
+        <SectionNav sectionIds={BRZA_SECTIONS} />
+        <BrzaCover c={content.cover} />
+        <BrzaGreeting c={content.greeting} />
+        <BrzaOverview c={content.overview} />
+        <BrzaScope c={content.scope} />
+        <BrzaImplementation c={content.implementation} />
+        <BrzaPricing c={content.pricing} />
+        <BrzaProposal c={content.proposal} />
+        <Footer />
+      </div>
+    )
+  }
+
+  const legacyContent = content as Content
 
   return (
     <div ref={proposalRef} className="relative">
       <div className="pdf-ignore">
         <Background />
       </div>
-      <SectionNav sectionIds={SECTIONS} />
-      <Cover c={content.cover} />
-      <Greeting c={content.greeting} />
-      <Challenge c={content.challenge} />
-      <Cooperative c={content.cooperative} />
-      <Timeline c={content.timeline} />
-      <WhyAsh c={content.whyAsh} elixir={content.elixir} phoenix={content.phoenix} />
-      <MigrationPath c={content.migrationPath} />
-      <Recommendation c={content.recommendation} />
-      <Pricing c={content.pricing} onConfigChange={setConfig} />
-      <WhatsNext c={content.whatsNext} onDownloadPdf={handleDownloadPdf} generating={generating} />
+      <SectionNav sectionIds={LEGACY_SECTIONS} />
+      <Cover c={legacyContent.cover} />
+      <Greeting c={legacyContent.greeting} />
+      <Challenge c={legacyContent.challenge} />
+      <Cooperative c={legacyContent.cooperative} />
+      <Timeline c={legacyContent.timeline} />
+      <WhyAsh c={legacyContent.whyAsh} elixir={legacyContent.elixir} phoenix={legacyContent.phoenix} />
+      <MigrationPath c={legacyContent.migrationPath} />
+      <Recommendation c={legacyContent.recommendation} />
+      <Pricing c={legacyContent.pricing} />
+      <WhatsNext c={legacyContent.whatsNext} onDownloadPdf={handleDownloadPdf} generating={generating} />
       <Footer />
     </div>
   )

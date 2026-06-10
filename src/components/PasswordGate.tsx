@@ -1,9 +1,9 @@
 import { useState, useEffect, FormEvent } from 'react'
 import { decryptContent, EncryptedPayload } from '../lib/crypto'
-import type { Content } from '../types'
+import type { ProposalContent } from '../types'
 
 type Props = {
-  onUnlock: (content: Content) => void
+  onUnlock: (content: ProposalContent) => void
 }
 
 type Status = 'checking' | 'ready' | 'missing' | 'no-slug'
@@ -41,7 +41,7 @@ export default function PasswordGate({ onUnlock }: Props) {
       const res = await fetch(`${import.meta.env.BASE_URL}content.${slug}.enc.json`)
       if (!res.ok) throw new Error('Content not found')
       const payload = (await res.json()) as EncryptedPayload
-      const content = (await decryptContent(payload, password)) as Content
+      const content = (await decryptContent(payload, password)) as ProposalContent
       document.title = content.meta.title
       onUnlock(content)
     } catch {

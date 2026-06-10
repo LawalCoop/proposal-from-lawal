@@ -18,6 +18,7 @@ const BAR_STYLES = [
   },
 ]
 
+
 export default function BrzaProposal({ c, pricing }: Props) {
   const totalAmount = parseCurrency(pricing.total)
   const items = pricing.breakdown.map((item, index) => {
@@ -65,7 +66,9 @@ export default function BrzaProposal({ c, pricing }: Props) {
                   <span className={`text-xl md:text-2xl font-bold ${item.accent ? 'text-accent' : 'text-text-primary'}`}>
                     {item.value}
                   </span>
-                  <span className="text-sm text-text-secondary">{formatArs(item.amount)}</span>
+                  <span className="text-sm text-text-secondary">
+                    {item.accent ? `${formatArs(item.amount)} + IVA` : formatArs(item.amount)}
+                  </span>
                 </div>
               </div>
             </div>
@@ -108,3 +111,4 @@ function formatArs(value: number) {
   const rounded = Math.round(value / 1000000) * 1000000
   return `$${rounded.toLocaleString('es-AR')} ARS`
 }
+

@@ -105,5 +105,6 @@ function parseCurrency(value: string) {
 }
 
 function formatArs(value: number) {
-  return `$${value.toLocaleString('es-AR')} ARS`
+  const rounded = Math.round(value / 1000000) * 1000000
+  return `$${rounded.toLocaleString('es-AR')} ARS`
 }

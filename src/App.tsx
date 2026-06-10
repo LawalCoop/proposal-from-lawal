@@ -226,7 +226,7 @@ export default function App() {
         <BrzaScope c={content.scope} />
         <BrzaImplementation c={content.implementation} />
         <BrzaPricing c={content.pricing} />
-        <BrzaProposal c={content.proposal} />
+        <BrzaProposal c={content.proposal} pricing={content.pricing} />
         <Footer />
       </div>
     )
